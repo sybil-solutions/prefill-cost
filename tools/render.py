@@ -194,15 +194,22 @@ def table_datasets(rows):
 
 
 def table_provenance(rows):
-    sources = {}
+    """One row per source repo. The per-file manifest is data/sources.json."""
+    per = {}
     for r in rows:
-        key = (r["source"]["repo"], r["source"]["commit"], r["source"]["path"])
-        sources.setdefault(key, set()).add(r["id"])
-    head = ["repo", "commit", "file", "rows"]
-    body = [["[%s](https://github.com/%s)" % (repo.split("/")[-1], repo),
-             "`%s`" % commit[:12], "`%s`" % path, str(len(ids))]
-            for (repo, commit, path), ids in
-            sorted(sources.items(), key=lambda kv: (kv[0][0], kv[0][2]))]
+        src = r["source"]
+        e = per.setdefault(src["repo"], {"commits": set(), "files": set(), "rows": 0})
+        e["commits"].add(src["commit"])
+        e["files"].add(src["path"])
+        e["rows"] += 1
+    head = ["repo", "commits", "files", "rows"]
+    body = []
+    for repo, e in sorted(per.items(), key=lambda kv: (-kv[1]["rows"], kv[0])):
+        commits = sorted(e["commits"])
+        label = "`%s`" % commits[0][:10] if len(commits) == 1 else \
+                "`%s` +%d" % (commits[0][:10], len(commits) - 1)
+        body.append(["[%s](https://github.com/%s)" % (repo.split("/")[-1], repo),
+                     label, str(len(e["files"])), str(e["rows"])])
     return head, body
 
 

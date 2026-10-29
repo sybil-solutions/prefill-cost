@@ -143,6 +143,22 @@ def main():
         for r in merged:
             r.pop("_file", None)
             f.write(json.dumps(r, sort_keys=True) + "\n")
+    # Every (repo, commit, file) the dataset rests on, with how many rows cite it.
+    cited = collections.Counter()
+    for r in merged:
+        src = r["source"]
+        cited[(src["repo"], src["commit"], src["path"])] += 1
+    with open(os.path.join(root, "data", "sources.json"), "w") as f:
+        json.dump({
+            "note": "Per-file sha256 of the machine-read subset is in "
+                    "data/staging/sources.json; harvested rows carry the commit they "
+                    "were read at.",
+            "files": [
+                {"repo": repo, "commit": commit, "path": path, "rows": n}
+                for (repo, commit, path), n in sorted(cited.items())
+            ],
+        }, f, indent=1, sort_keys=True)
+        f.write("\n")
     with open(os.path.join(root, "data", "summary.json"), "w") as f:
         json.dump(summary, f, indent=1, sort_keys=True)
         f.write("\n")

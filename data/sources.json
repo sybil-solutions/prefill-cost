@@ -1,0 +1,893 @@
+{
+ "files": [
+  {
+   "commit": "ce69105cb5812638e5fdba7ffecfb23945e11948",
+   "path": "results/capacity-2800000.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000",
+   "rows": 1
+  },
+  {
+   "commit": "ce69105cb5812638e5fdba7ffecfb23945e11948",
+   "path": "results/local-nvme-dspark-summary.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000",
+   "rows": 45
+  },
+  {
+   "commit": "ce69105cb5812638e5fdba7ffecfb23945e11948",
+   "path": "results/remote-historical-summary.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000",
+   "rows": 3
+  },
+  {
+   "commit": "ce69105cb5812638e5fdba7ffecfb23945e11948",
+   "path": "results/summary.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000",
+   "rows": 40
+  },
+  {
+   "commit": "8a0104bc9f8637f7d2b114b59d2cdf991154d534",
+   "path": "evidence/fixed-vision/summary.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-h200",
+   "rows": 27
+  },
+  {
+   "commit": "8a0104bc9f8637f7d2b114b59d2cdf991154d534",
+   "path": "evidence/ram-benchmark.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-h200",
+   "rows": 1
+  },
+  {
+   "commit": "8a0104bc9f8637f7d2b114b59d2cdf991154d534",
+   "path": "evidence/ssd-benchmark.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-h200",
+   "rows": 1
+  },
+  {
+   "commit": "8a0104bc9f8637f7d2b114b59d2cdf991154d534",
+   "path": "evidence/tables/measured.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-h200",
+   "rows": 2
+  },
+  {
+   "commit": "8a0104bc9f8637f7d2b114b59d2cdf991154d534",
+   "path": "evidence/tiered/cold-benchmark.json",
+   "repo": "sybil-solutions/deepseek-v4.1-flash-h200",
+   "rows": 1
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D030/sweep.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 2
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D061/sweep.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 2
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D107/sweep.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 2
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D117/sweep.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 2
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D119/ctx_scan.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 5
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D119/ctx_scan_261k.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 1
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D130.md",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "rows": 9
+  },
+  {
+   "commit": "7eb74068e3caaa63e36f85c480019d5735cefaff",
+   "path": "benchmarks/missions/34-rpc-hetero-inference/results_raw.jsonl",
+   "repo": "sybil-solutions/framework-research",
+   "rows": 12
+  },
+  {
+   "commit": "7eb74068e3caaa63e36f85c480019d5735cefaff",
+   "path": "documentation/phase-0-strix-benchmarks.md",
+   "repo": "sybil-solutions/framework-research",
+   "rows": 33
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/C056/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/G066a/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/G067/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N119-S2a-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N119-S3a-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N119-S3b2-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N129-pfon-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N129-s16-r16-16g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 1
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N129-s16-r48-16g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 1
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/P001-image-smoke/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/P002b-stream-fix-smoke/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/P003-nvme-image-smoke/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "rows": 2
+  },
+  {
+   "commit": "16a92c85d6c49eb0daa4a94b49e5ca5608b4486e",
+   "path": "README.md",
+   "repo": "sybil-solutions/glm53-flash-tensorfold-4x-spark",
+   "rows": 13
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "reference/best_known.json",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 8
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "submissions/2x-r9700-32gb/2026-09-29-benstadin-bprime-fp8.json",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 4
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "submissions/2x-r9700-32gb/2026-09-29-benstadin-bprime.json",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 4
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "submissions/2x-r9700-32gb/2026-09-29-benstadin-m2-fp8.json",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 4
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "submissions/2x-r9700-32gb/2026-09-29-benstadin-m2.json",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 4
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "submissions/rtx-3090-24gb/2026-09-29-0xSero.json",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 4
+  },
+  {
+   "commit": "ef9782ce0c564be8162e34edcb6bb626f56901d3",
+   "path": "targets/qwen3.8-flash-next-offload.md",
+   "repo": "sybil-solutions/local-ai-recipe-kit",
+   "rows": 8
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/apple-m2-max-96gb.qwen3.8-27b.mlx-vlm-qwen3.8-27b-4bit-mtp-200k-m2-max.200k.20261006T084645.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/apple-m5-pro-24gb.qwen3.8-27b.mlx-vlm-qwen3.8-27b-3bit-mtp-200k.200k.20261006T032555.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/apple-m5-pro-48gb.qwen3.8-27b.mtplx-qwen3.8-27b-4bit-mtp-200k.200k.20261006T030237.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/apple-m5-pro-48gb.qwen3.8-flash-next.slotstream-qwen3.8-flash-next-4bit-32k.32k.20261008T160431.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/apple-m5-pro-48gb.qwen3.8-flash-next.slotstream-qwen3.8-flash-next-4bit-32k.32k.20261008T161700.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/dgx-spark-gb10-128gb.deepseek-v4.1-flash.vllm-deepseek-v4.1-flash-spark-256k-2x.256k.20261003T082323.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/dgx-spark-gb10-128gb.deepseek-v4.1-flash.vllm-deepseek-v4.1-flash-spark-256k-2x.256k.20261003T212655.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/dgx-spark-gb10-128gb.glm-5.3-flash.tensorfold-glm-5.3-flash-exl3-4bpw-1024k-4x.1024k.20261012T165242.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.nemotron-3.5-bolt-74b-a9b.llama.cpp-sycl-nemotron-3.5-bolt-74b-a9b-24gb-256k-arc-pro-b70.256k.20261017T080702.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme12-256k-intel-arc-pro-b70-32gb.256k.20261017T044600.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme28-256k-intel-arc-pro-b70-32gb.256k.20261017T024039.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme58-256k-intel-arc-pro-b70-32gb.256k.20261017T022820.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme58-256k-intel-arc-pro-b70-32gb.256k.20261017T025437.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-ram80-256k-intel-arc-pro-b70-32gb.256k.20261016T211050.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-ram-256k-intel-arc-pro-b70-32gb.256k.20261016T160704.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/radeon-8060s-64gb.qwen3.8-27b.llama.cpp-vulkan-qwen3.8-27b-iq4-xs-mtp-128k.128k.20261020T080217.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3060-12gb.qwen3.6-35b-a3b.llama.cpp-qwen3.6-35b-a3b-mtp-ud-q4-k-xl-autofit-128k-2x.128k.20261001T014311.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3060-12gb.qwen3.8-27b.llama.cpp-qwen3.8-27b-ud-q4-k-xl-tensor-mtp-128k-2x.128k.20261001T013240.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-16g-128k-rtx-3090-24gb.128k.20261008T152926.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-16g-128k-rtx-3090-24gb.128k.20261009T021643.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-16g-128k-rtx-3090-24gb.128k.20261009T124547.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-55g-128k-rtx-3090-24gb.128k.20261008T083936.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-55g-128k-rtx-3090-24gb.128k.20261009T012633.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-55g-128k-rtx-3090-24gb.128k.20261009T123730.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-offload-128k-rtx-3090-24gb.128k.20261009T064723.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.qwen3.8-27b-pi.sglang-qwen3.8-27b-pi-exl3-3bpw-mtp-vision-200k.200k.20261005T080915.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.qwen3.8-27b.sglang-qwen3.8-27b-exl3-3bpw-mtp-vision-208k.208k.20261010T112034.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.qwen3.8-flash-next.strata-qwen3.8-flash-next-iq3-s-128k-rtx-3090-24gb.128k.20261011T191729.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-3090-24gb.qwen3.8-flash-next.strata-qwen3.8-flash-next-q2-0-128k-rtx-3090-24gb.128k.20261012T015035.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rtx-4080-super-16gb.welp-35b-a3b.llama.cpp-welp-35b-a3b-262k.256k.20261009T194126.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/rx-6700-xt-12gb.qwen3.5-9b.llama.cpp-qwen3.5-9b-q4-k-m-64k-gfx1031.64k.20261011T160703.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "c0604cff48078bfc13678c42b501bdced0c0fb81",
+   "path": "lab/runs/x86-64-avx2-cpu.lfm2.5-2.6b.llama.cpp-lfm2.5-2.6b-qad-q4-0-8k-cpu-docker.8k.20261003T102019.json",
+   "repo": "sybil-solutions/local-ai-registry",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-16g-r16-screen.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-16g-r48-screen.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-cap8-pair.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-cap8.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-n129.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-nocap-pair.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-58g-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-c55-pfoff-control.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-g066a-exact.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-g067-allram.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-image-v4-nvme.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-ctl-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-ctl-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-k1-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-k1-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-k1m0-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-e2-ctl.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-f-single-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-g-cap7-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-g-raid-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-cap7-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-cap7-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-raid-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-raid-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-single-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-single-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v44-ctl-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v44-ctl-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v46-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v46-full-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-b70-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-b70-fr120.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-b70r-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-ctl-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-ctl-fr120.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s1b-exact-nvme-50g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s1c-exact-nvme-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s1d-exact-nvme-50g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s2-exact-nvme-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3a-cpu-nvme-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3b-cpu-nvme-batched-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3b-util-base.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3b-util.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u1-ctrl.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u1-pflo.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u1-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u2-lfu.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u3-vis.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u5-cpudiag.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u6-lfu-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u6a-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u6b-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u7-rd32.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v42-image-smoke-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v42-image-smoke-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v43-image-smoke-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v43-image-smoke-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 1
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-n130-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 10
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-n130-32g-control.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 8
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-prof-cap7.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-prof-raid.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 2
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv20.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 5
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv21.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 5
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv22.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 5
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv23.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 5
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv24b.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 3
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv25.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 5
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/qwen38fn-b70-srv26.json",
+   "repo": "sybil-solutions/moetier",
+   "rows": 5
+  },
+  {
+   "commit": "730d8101d0ff7d53d7d6a3b980c3bae0c3b84181",
+   "path": "qwen3.8-flash-next/b70-offload/results/n130/c32/analysis.json",
+   "repo": "sybil-solutions/qwen-serve",
+   "rows": 2
+  },
+  {
+   "commit": "730d8101d0ff7d53d7d6a3b980c3bae0c3b84181",
+   "path": "qwen3.8-flash-next/b70-offload/results/n130/f16/analysis.json",
+   "repo": "sybil-solutions/qwen-serve",
+   "rows": 2
+  },
+  {
+   "commit": "730d8101d0ff7d53d7d6a3b980c3bae0c3b84181",
+   "path": "qwen3.8/3090-sglang/benchmarks/tp1-results.json",
+   "repo": "sybil-solutions/qwen-serve",
+   "rows": 4
+  },
+  {
+   "commit": "730d8101d0ff7d53d7d6a3b980c3bae0c3b84181",
+   "path": "qwen3.8/3090-sglang/benchmarks/tp2-results.json",
+   "repo": "sybil-solutions/qwen-serve",
+   "rows": 16
+  },
+  {
+   "commit": "730d8101d0ff7d53d7d6a3b980c3bae0c3b84181",
+   "path": "qwen3.8/3090-sglang/benchmarks/tp4-results.json",
+   "repo": "sybil-solutions/qwen-serve",
+   "rows": 20
+  },
+  {
+   "commit": "730d8101d0ff7d53d7d6a3b980c3bae0c3b84181",
+   "path": "qwen3.8/b70/README.md",
+   "repo": "sybil-solutions/qwen-serve",
+   "rows": 12
+  },
+  {
+   "commit": "9392e65a9558d112f6306ae3f3259971236cefbb",
+   "path": "README.md",
+   "repo": "sybil-solutions/qwen38-flash-next-3090-usb-offload",
+   "rows": 10
+  },
+  {
+   "commit": "a1f72be2ff6319b9b2ea9bf6768c99664b1ca892",
+   "path": "xpu/README.md",
+   "repo": "sybil-solutions/trellis-serve",
+   "rows": 4
+  },
+  {
+   "commit": "a1f72be2ff6319b9b2ea9bf6768c99664b1ca892",
+   "path": "xpu/bench/results/2026-09-22.jsonl",
+   "repo": "sybil-solutions/trellis-serve",
+   "rows": 7
+  },
+  {
+   "commit": "a1f72be2ff6319b9b2ea9bf6768c99664b1ca892",
+   "path": "xpu/bench/results/2026-09-23.jsonl",
+   "repo": "sybil-solutions/trellis-serve",
+   "rows": 19
+  }
+ ],
+ "note": "Per-file sha256 of the machine-read subset is in data/staging/sources.json; harvested rows carry the commit they were read at."
+}
