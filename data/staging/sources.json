@@ -1,0 +1,441 @@
+{
+ "rows": {
+  "dsv41-ctxscan.jsonl": 6,
+  "glm-rows.jsonl": 96,
+  "qwen-usb-scan.jsonl": 10
+ },
+ "sources": [
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D119/ctx_scan.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "sha256": "50a2badf0cbbaacd15c36f6ae3ca6fb0e6437d2e5c14bb6fdf33c3d0436280fc"
+  },
+  {
+   "commit": "08802b6fe00101830d75733d2a7c2dd386e121e3",
+   "path": "results/D119/ctx_scan_261k.json",
+   "repo": "sybil-solutions/dsv41-flash-offload",
+   "sha256": "e26e88cafe8f2549a22eadda2297b701e4ffa00633b0cb42af7a7215f5d670a9"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/C056/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "43b1500f058cedcfb09ba63d98cdaabe5c2a8f0ae671883386690d777c9af491"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/G066a/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "1487f3029803a5725d3bf2d52a9b36b3cf4b2a6ca2d3aba974ebba95732c7c0d"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/G067/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "8c3bf5e5e3a1691c103b060a92f419cdaf5caf113c9682e1706c5bb5cc01786a"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N119-S2a-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "000d50fd7c8fe150174f96cf9d6dea1406779fba4ff8db4d59140a8a7001c6cd"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N119-S3a-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "4cf23520b8a40fd3934551bbb103afb2daf0b6b98947f7d3c765b4c5f6210e67"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N119-S3b2-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "14dd8294019351aea8370f21b6ffb990a7ab19b22c1419ef20b5ff70e6ef4219"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N129-pfon-55g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "35a8c382b0788dda672f5676f15b7dde63aa9bc27968662e8305626e866f5002"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N129-s16-r16-16g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "9e6977450b334f006f759c91c852fa4193cfb9c64dccb0e5e2d443b4eca9a726"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/N129-s16-r48-16g/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "7d7db02c91a502633cd12929b0a066c7dbfdcaf6b481dc032c4ef6a0c99a562f"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/P001-image-smoke/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "6fba8a65bb6d9e94dcabfac6398dd97f1f1cea3b4087974d8ca07940be4b3e1b"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/P002b-stream-fix-smoke/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "533ab8b956f7c5ad01e46846af01799511f0ce3b9b5854d1688eceacc6bf47c4"
+  },
+  {
+   "commit": "6fe077da79a4d6fc842cf9f50cb703e4409924ca",
+   "path": "results/P003-nvme-image-smoke/sweep.json",
+   "repo": "sybil-solutions/glm-flash-lite",
+   "sha256": "1668f8190d67cbc541cac8eb24e0f801afd70e464dee03b341d75c986e160357"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-16g-r16-screen.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "dbd4227db9316010cb32ab925ad76747aae04019ee55a33dc357edfb31bcb76e"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-16g-r48-screen.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "6d252a4d5ee34024ef24df56211b4515837619090a1b2216182a1f20086dcc2a"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-cap8-pair.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "b7d1e5071292df02dae6961812628f54219f89db91aa9371a6318ecd1088b785"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-cap8.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "ac2ace2afe70a5b84cf70aea2a735b74322946f484e091b0ef39408b161ac511"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-n129.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "b4695dcf2e72a0c02eeb3473322dc21e962abe6ba5047725ffbf938f0010df26"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-55g-pfon-nocap-pair.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "37423d1582a435d4bd876cd312ee82339ec0024fbe5521a9cea0d6ced410003d"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-58g-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "6a03119dde52e9c0d0bfc7f9f391ea8f4b7d210d6c7cc4ac0467fc76e7a1e474"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-c55-pfoff-control.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "e6fdcfaa11fb3a4f79346bd2d9cb43b5fee26ebc97ab78f6f2d6cbfc5fd7bf0c"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-g066a-exact.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "a5eeea2984c6d815635c76ec88046b17e466912396977e8955d276440ea70ff5"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-g067-allram.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "55400c09e4cb800066cef648c42e852a83f9d1f1da56dbec5fcb21ed0d81e8c9"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-image-v4-nvme.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "08821663daeca3526e1a3aced0f8be5be66af5a7ba37b7b0fc6a9e6cb2d0eb3b"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-ctl-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "beea6e421789311c4a1195d18be3659dc3230ea87a6c8080965a6bf04e2d5d4f"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-ctl-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "a113f7c316d7dc1f128977e47f9584066c5599ac25c1d8d632fb5528aa15124b"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-k1-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "f498b5bc4d043592c1af4dc5143fc2abef5300c43c528db7a165c69d1873d0a4"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-k1-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "98bed873ecfc24e63f6ab9df9ddafda9239881c9f0301d04d50b48fb1d84b227"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-ab-k1m0-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "27452deb8154d9e7b91add64cf112699e8b88a7d2540c157abc682f0a0dc039d"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-e2-ctl.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "9056a0df9dcb7687ff9d99423d96707fb32be6c893450bf44b5985559d8752fd"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-f-single-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "319116acbcfbc2cc6d752d5a7dda40bb217cfa4ec02971798a4fb2809756996f"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-g-cap7-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "dba1784b63e5b0408da5b137af0e4543615e61d074a25bc79009bb2f0f4f49f5"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-g-raid-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "5ef43abee7ad0d5ec3f90092057d7deba33f9e390051d2b46b41def43f7f6905"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-cap7-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "8186c69c98bc2336a7ef2cb18c14237e6e228f65af5983b71c7f580bee96bf9f"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-cap7-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "bf991a13a2addc584a8e3375959d2b6c707555f73515c20ff72be101711c42bc"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-raid-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "42522db1a6dc763c1b773efe5ecdce382715492b0d84cc297503fe9408c38ae6"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-raid-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "8582a540d262248f1e613da4a2d4f5a6e475fe6f867c37fa875197eecc331da0"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-single-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "0dbfa3c2ff831f76c8d0cba88a65fbee6134642dd87d8f300fd7b0dd94f6e7c8"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-q-single-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "013ab8e20fec6b807f5cac947a5a037386c3a8303a15eb9fc12c60dc399454e9"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v44-ctl-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "3a0bb322436e76f04b98abd299dbf3e3ad9bda1cb9b17472edb533a9882ae147"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v44-ctl-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "dbc08a39f3b61e1f394caf39c793c0755a19ddc3821a88526fd2092842f61e9c"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v46-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "c102b0ded77e94ce453c739d02e8e9699671430518e93c9ba96f8bb3c2bc50b7"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n129-v46-full-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "7ead2387b8255465b974fda237e87f6e24a7d046e09e8d23a34ba294155830d0"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-b70-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "931b4848f5338e3e10d950cef69b8a513c567e57e1e60be7cceb76f41ba4cb5b"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-b70-fr120.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "72d71642e3be47926065a7625c1b758405464abf2295f126dda68c85f2893728"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-b70r-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "0bdf21ce346da727906c220afd84f44ee91dfb602196901c023b1535227cff22"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-ctl-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "f748b6f6e531f816e6e2f75bdb02f56be489e953cf9db29573f98c13a42d4023"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-n137-ctl-fr120.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "c0bb32f1865e3db2ad596b6511b46e5de45d611004e3b21b0c2ad786eb4684a2"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s1b-exact-nvme-50g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "d3c5414521266c40bcad18246cd9f6d8c2b1b94720363c1f3a0249a13ba295e1"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s1c-exact-nvme-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "f354a76d08d2cd29e3a0a7a850d27fc2fa7375cb1efc15d9abb7e49e5e50bec3"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s1d-exact-nvme-50g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "3600ea05921580b592ef3730394bb5d5b069130991d0975f9864f522bb8b1159"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s2-exact-nvme-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "ce6704d610845964ccd89438700e748c9bbfb695297456296012aed466a73229"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3a-cpu-nvme-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "754eb942a2d49a9ae834c6bba5fdc12d4947cce58d898c83463e5ab373b6864e"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3b-cpu-nvme-batched-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "927098b33514aff4acb5e3c74b2164d0a1a5b8dec50b72042eca3dfb08d8d508"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3b-util-base.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "b455422c2c220bcdc42d00c73dbc0fe557be11e77b1f889004edca9371def1c2"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-s3b-util.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "34c40cea29323db213704c842870119ad48d0e5da1f6c06971760699af426aab"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u1-ctrl.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "93aeba6e75c5bbe22666d56551b92ee1904a82b0611f7872a7a1c30047e1cf83"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u1-pflo.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "7ae1d26cc57c46a57676f4dc573ab2c06dcb342dc667c945e410312faf3b657a"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u1-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "91e96406a58703d6c52ad796d363ccb803d6cb56973b7c691d22e754b57cf555"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u2-lfu.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "f1d4c67461376d83e13966035902f2b9a4e2eaf732147ad7860197562b6d303a"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u3-vis.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "2aa9d0cb4815888b5c29eaf6cff5bbb64b18acd707a4998574512beb24374969"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u5-cpudiag.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "e3d9796b16996ad905561a75f3c2e7db7974dab5b24a922050dbfde86c11169f"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u6-lfu-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "073c72b8d1e4759ee08c97569c1e0ac27aeb659f5a0d0aa0c7301c9cb31e6e88"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u6a-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "34ee69e361000557da6ac096b7c1898d04578e016279ffe3fbca09e4d90b1de5"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u6b-pfoff.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "f1177bbdb350f83fe7383992ec2b58e8709cd4be51a699f944537d660abf6b09"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-u7-rd32.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "053f48c36599d18e229e83a2053bdafb5e0fc6a5b03535211471e9c192e447c0"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v42-image-smoke-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "45d7f5b7a00feff607d1abe4ca799ab3d16d5786825aebc0dcfbfdbb3624d2b1"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v42-image-smoke-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "cc287942d2cc0268c934d061339c57d7249250f12cea8bac1a6627199f576919"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v43-image-smoke-16g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "0bb36a24e017801767a4d197bb6908ae886ffc80d5aaa10ea2271f04c8a765e9"
+  },
+  {
+   "commit": "2da3ec482dc9c8d82fe9a077578fcca306ca1106",
+   "path": "registry/runs/glm53-v43-image-smoke-55g.json",
+   "repo": "sybil-solutions/moetier",
+   "sha256": "3fabc015f613f888d32c7b0f1e02295b1c1e4aa3991065aabe493d5ba21f9545"
+  },
+  {
+   "commit": "9392e65a9558d112f6306ae3f3259971236cefbb",
+   "path": "README.md",
+   "repo": "sybil-solutions/qwen38-flash-next-3090-usb-offload",
+   "sha256": "d69f9084f150ad4b0c882659ab666c2f85511e829ef8d4e9cc1d5f4230f4b09a"
+  }
+ ]
+}

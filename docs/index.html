@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prefill cost when the weights do not fit</title>
+<style>
+:root { color-scheme: light dark; }
+body { max-width: 74ch; margin: 2.5rem auto; padding: 0 1.1rem;
+       font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+       color: #1a1a1a; background: #fdfdfc; }
+@media (prefers-color-scheme: dark) {
+  body { color: #d8d8d4; background: #141414; }
+  a { color: #a5c8ff; }
+  th, td { border-color: #333 !important; }
+  thead th { background: #1d1d1d !important; }
+  code { background: #202020 !important; }
+}
+h1 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 .3rem; font-weight: 650; }
+h2 { font-size: 1.05rem; margin: 2.2rem 0 .5rem; padding-bottom: .25rem;
+     border-bottom: 1px solid #e3e3e0; font-weight: 620; }
+h3 { font-size: .95rem; margin: 1.4rem 0 .3rem; font-weight: 600; }
+p, li { margin: .5rem 0; }
+.sub { color: #666; font-size: .9rem; margin-bottom: 1.6rem; }
+a { color: #1a4fd6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+       background: #f2f2ef; padding: .08em .3em; border-radius: 2px; }
+pre { background: #f2f2ef; padding: .7rem .8rem; overflow-x: auto;
+      font: 12.5px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+table { border-collapse: collapse; width: 100%; margin: .8rem 0 1.1rem;
+        font-size: 13px; }
+th, td { border: 1px solid #e3e3e0; padding: .3rem .45rem; text-align: left;
+         vertical-align: top; }
+thead th { background: #f7f7f4; font-weight: 600; }
+td.n { text-align: right; font-variant-numeric: tabular-nums;
+       font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
+.note { font-size: .85rem; color: #666; }
+nav { font-size: .9rem; margin-bottom: 1.8rem; }
+nav a { margin-right: .9rem; }
+</style></head><body>
+<h1>What prefill costs when the weights do not fit</h1>
+<p class="sub">Every measured prefill in the sybil-solutions campaigns, with the storage tier that
+served it. 517 rows from 34 datasets, 12 models.
+Generated from <code>data/prefill.jsonl</code>; every row cites the file it came from.</p>
+
+<nav><a href="#tier">storage tier</a><a href="#length">prompt length</a>
+<a href="#datasets">datasets</a><a href="#caveats">caveats</a>
+<a href="#reproduce">reproduce</a></nav>
+
+<h2 id="tier">1. The same prompt, four storage tiers</h2>
+<p>GLM-5.3-Flash EXL3 3.05 bpw on one RTX 3090, campaign N129, 2026-10-08. Identical image,
+identical settings, only the store changes. The 7 GB/s arms are the same four-drive array with
+its bandwidth capped to one drive's, so they separate <em>bandwidth</em> from <em>drive count</em>.</p>
+<table>
+<thead><tr><th>store</th><th>RAM cap</th><th>prefill tok/s</th><th>TTFT s</th><th>ms / 1k prompt tokens</th><th>decode C1 tok/s</th><th>NVMe read GB/s</th><th>share of link ceiling</th><th>avg read latency ms</th><th>stall ms / token</th></tr></thead>
+<tbody>
+<tr><td>1x M.2 drive</td><td class="n">16 GB</td><td class="n">242.2</td><td class="n">33.82</td><td class="n">4128.82</td><td class="n">3.50</td><td class="n">6.46</td><td class="n">87%</td><td class="n">7.04</td><td>-</td></tr>
+<tr><td>4x array, capped to 1 drive's bandwidth</td><td class="n">16 GB</td><td class="n">254.3</td><td class="n">32.21</td><td class="n">3932.36</td><td class="n">4.52</td><td class="n">6.83</td><td class="n">98%</td><td class="n">1.88</td><td>-</td></tr>
+<tr><td>4x M.2 array in RAID0</td><td class="n">16 GB</td><td class="n">649.7</td><td class="n">12.61</td><td class="n">1539.17</td><td class="n">12.79</td><td class="n">17.26</td><td class="n">66%</td><td class="n">0.72</td><td class="n">38.4</td></tr>
+<tr><td>1x M.2 drive</td><td class="n">55 GB</td><td class="n">402.4</td><td class="n">20.36</td><td class="n">2485.09</td><td class="n">10.16</td><td class="n">6.77</td><td class="n">91%</td><td class="n">4.84</td><td class="n">46.6</td></tr>
+<tr><td>4x array, capped to 1 drive's bandwidth</td><td class="n">55 GB</td><td class="n">393.3</td><td class="n">20.83</td><td class="n">2542.59</td><td class="n">14.34</td><td class="n">6.72</td><td class="n">96%</td><td class="n">1.31</td><td class="n">23.5</td></tr>
+<tr><td>4x M.2 array in RAID0</td><td class="n">55 GB</td><td class="n">663.8</td><td class="n">12.34</td><td class="n">1506.48</td><td class="n">17.43</td><td class="n">11.18</td><td class="n">43%</td><td class="n">0.84</td><td class="n">10.6</td></tr>
+</tbody></table>
+<p class="note">8k prompt, C1. TTFT = 8192 / prefill tok/s. I/O columns are the prefill phase's device counters.</p>
+
+<h2 id="length">2. What the next thousand prompt tokens cost</h2>
+<p>Prefill speed is not constant in prompt length: the first chunk pays for warm-up, the
+marginal chunks run near the GPU's own rate. <em>Marginal tok/s</em> is the speed of the tokens
+added over the row above, computed from the TTFT column.</p>
+<h3>DeepSeek-V4.1-Flash</h3>
+<p>EXL3 3.0 bpw on one 3090, experts pinned in host RAM, run D119</p>
+<table>
+<thead><tr><th>prompt tokens</th><th>prefill tok/s</th><th>TTFT s</th><th>ms / 1k tokens</th><th>marginal tok/s</th><th>marginal ms / 1k tokens</th></tr></thead>
+<tbody>
+<tr><td>8,192</td><td class="n">589.1</td><td class="n">13.9</td><td class="n">1697.5</td><td>-</td><td>-</td></tr>
+<tr><td>32,768</td><td class="n">774.6</td><td class="n">42.3</td><td class="n">1291.0</td><td class="n">866</td><td class="n">1155.2</td></tr>
+<tr><td>65,536</td><td class="n">813.2</td><td class="n">80.6</td><td class="n">1229.7</td><td class="n">856</td><td class="n">1168.5</td></tr>
+<tr><td>131,072</td><td class="n">791.4</td><td class="n">165.6</td><td class="n">1263.6</td><td class="n">771</td><td class="n">1297.6</td></tr>
+<tr><td>196,608</td><td class="n">781.1</td><td class="n">251.7</td><td class="n">1280.2</td><td class="n">761</td><td class="n">1313.3</td></tr>
+<tr><td>261,000</td><td class="n">764.1</td><td class="n">341.6</td><td class="n">1308.7</td><td class="n">716</td><td class="n">1395.8</td></tr>
+</tbody></table>
+<h3>Qwen3.8-Flash-Next</h3>
+<p>EXL3 3.05 bpw on one 3090 whose experts live on a Mac mini's SSD over USB4, config C</p>
+<table>
+<thead><tr><th>prompt tokens</th><th>prefill tok/s</th><th>TTFT s</th><th>ms / 1k tokens</th><th>marginal tok/s</th><th>marginal ms / 1k tokens</th></tr></thead>
+<tbody>
+<tr><td>2,565</td><td class="n">176.7</td><td class="n">14.5</td><td class="n">5659.3</td><td>-</td><td>-</td></tr>
+<tr><td>8,018</td><td class="n">417.8</td><td class="n">19.2</td><td class="n">2393.5</td><td class="n">1166</td><td class="n">857.3</td></tr>
+<tr><td>18,330</td><td class="n">470.1</td><td class="n">39.0</td><td class="n">2127.2</td><td class="n">521</td><td class="n">1920.2</td></tr>
+<tr><td>33,842</td><td class="n">584.2</td><td class="n">57.9</td><td class="n">1711.7</td><td class="n">819</td><td class="n">1220.8</td></tr>
+<tr><td>97,811</td><td class="n">560.9</td><td class="n">175.0</td><td class="n">1782.8</td><td class="n">546</td><td class="n">1830.1</td></tr>
+<tr><td>189,481</td><td class="n">548.1</td><td class="n">346.0</td><td class="n">1824.5</td><td class="n">536</td><td class="n">1865.4</td></tr>
+</tbody></table>
+
+<h2 id="rest">3. What the wider set adds</h2>
+<p>Thirty-four datasets, most of them one host and one protocol each. These bullets are the
+fastest single-stream prefill in each of the ones worth singling out.</p>
+<ul>
+<li><strong>7,817 tok/s</strong> at 32k tokens on DeepSeek-V4.1-Flash with the Engram tables on local NVMe (<code>deepseek-v4.1-flash-4x-rtx-pro-6000</code>, 4x RTX PRO 6000). That repo's metric includes queueing, so treat it as an upper bound; it still reports 5,845 tok/s at 500k.</li>
+<li><strong>4,397 tok/s</strong> at 32k, and flat from 8k to 64k (4,143-4,397), for Qwen3.8-Flash-Next MXFP4-FP8-GPTQ on 2x R9700 with the experts in host RAM (<code>local-ai-recipe-kit-submissions-2x-r9700-32gb</code>, a community submission to the kit).</li>
+<li><strong>2,664 tok/s</strong> at 106,294 tokens for Qwen3.8-Flash-Next Q2_0 on one RTX 3090 reading a Strata NVMe expert pack (<code>local-ai-registry-gates-rtx-3090-24gb</code>). The IQ3_S pack on the same prompt measures 2,174.</li>
+<li><strong>2,421 tok/s</strong> at ~4k for Qwen3.8-27B EXL3 on one Arc Pro B70 with W8A8 int8 prefill linears, against 1,666 for the same card without them (<code>trellis-serve-xpu-b70-int8</code> vs <code>trellis-serve-xpu-b70</code>). On a VRAM-resident model, prefill is a kernel problem, not a storage one.</li>
+<li><strong>1,015 tok/s</strong> at 981,841 tokens, 967 s to first token, for GLM-5.3-Flash on 2x DGX Spark (<code>glm53-tensorfold-2x-spark</code>). The only sub-million-token prefill in the set, and the clearest picture of what a million-token prompt costs.</li>
+<li><strong>70 tok/s</strong> at 106k tokens on a Radeon 8060S iGPU (<code>local-ai-registry-gates-radeon-8060s-64gb</code>), against 2,664 for the 3090 above. Same prompt shape, 38x apart.</li>
+</ul>
+<h3 id="datasets">All datasets</h3>
+<table>
+<thead><tr><th>dataset</th><th>family</th><th>model</th><th>host</th><th>storage</th><th>prompt tokens</th><th>rows</th><th>fastest prefill tok/s</th><th>at tokens</th><th>ms / 1k tokens</th></tr></thead>
+<tbody>
+<tr><td>deepseek-v4.1-flash-4x-rtx-pro-6000</td><td class="n">deepseek</td><td class="n">DeepSeek-V4.1-Flash</td><td>-</td><td class="n">auxiliary tables on disk, not stated</td><td class="n">512-500000</td><td class="n">89</td><td class="n">7816.6</td><td class="n">32768</td><td class="n">128</td></tr>
+<tr><td>local-ai-recipe-kit-submissions-2x-r9700-32gb</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td>-</td><td class="n">all experts in host RAM</td><td class="n">8192-65536</td><td class="n">16</td><td class="n">4396.7</td><td class="n">32768</td><td class="n">227</td></tr>
+<tr><td>deepseek-v4.1-flash-h200</td><td class="n">deepseek</td><td class="n">DeepSeek-V4.1-Flash</td><td>-</td><td class="n">all experts in host RAM, auxiliary tables on disk</td><td class="n">8192-32980</td><td class="n">32</td><td class="n">3197.9</td><td class="n">32737</td><td class="n">313</td></tr>
+<tr><td>local-ai-recipe-kit-3090</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td class="n">omarchy</td><td class="n">1x M.2 drive</td><td class="n">8192-65536</td><td class="n">4</td><td class="n">2848.0</td><td class="n">32768</td><td class="n">351</td></tr>
+<tr><td>local-ai-recipe-kit-targets-rtx-3090-24gb</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td>-</td><td class="n">1x M.2 drive</td><td class="n">8192-65536</td><td class="n">4</td><td class="n">2846.0</td><td class="n">32768</td><td class="n">351</td></tr>
+<tr><td>local-ai-recipe-kit-submissions-rtx-3090-24gb</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td class="n">omarchy</td><td class="n">1x M.2 drive</td><td class="n">8192-65536</td><td class="n">4</td><td class="n">2836.9</td><td class="n">32768</td><td class="n">352</td></tr>
+<tr><td>local-ai-registry-gates-rtx-3090-24gb</td><td class="n">mixed</td><td class="n">Qwen3.8-Flash-Next +3 more</td><td class="n">rtx-3090-24gb</td><td class="n">1x M.2 drive, all experts in host RAM, everything in VRAM</td><td class="n">93437-173372</td><td class="n">11</td><td class="n">2664.0</td><td class="n">106294</td><td class="n">375</td></tr>
+<tr><td>trellis-serve-xpu-b70-int8</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td>-</td><td class="n">everything in VRAM</td><td class="n">4096-253952</td><td class="n">4</td><td class="n">2421.0</td><td class="n">4096</td><td class="n">413</td></tr>
+<tr><td>local-ai-registry-gates-dgx-spark-gb10-128gb</td><td class="n">mixed</td><td class="n">GLM-5.3-Flash +1 more</td><td class="n">dgx-spark-gb10-128gb</td><td class="n">one shared memory pool</td><td class="n">175457-751923</td><td class="n">3</td><td class="n">2094.0</td><td class="n">751923</td><td class="n">478</td></tr>
+<tr><td>glm53-tensorfold-3x-spark</td><td class="n">glm</td><td class="n">GLM-5.3-Flash</td><td class="n">three DGX Sparks (TP=3, NCCL, KV_POOL_GIB=27)</td><td class="n">one shared memory pool</td><td class="n">8212-262169</td><td class="n">6</td><td class="n">2064.2</td><td class="n">32790</td><td class="n">484</td></tr>
+<tr><td>local-ai-registry-gates-rtx-4080-super-16gb</td><td class="n">qwen</td><td class="n">Welp-35B-A3B</td><td class="n">rtx-4080-super-16gb</td><td class="n">everything in VRAM</td><td class="n">213570</td><td class="n">1</td><td class="n">2028.0</td><td class="n">213570</td><td class="n">493</td></tr>
+<tr><td>glm53-tensorfold-2x-spark</td><td class="n">glm</td><td class="n">GLM-5.3-Flash</td><td class="n">two DGX Sparks (TP=2 over ConnectX-7 RoCE)</td><td class="n">one shared memory pool</td><td class="n">8219-981841</td><td class="n">7</td><td class="n">1978.9</td><td class="n">32790</td><td class="n">505</td></tr>
+<tr><td>trellis-serve-xpu-b70</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td>-</td><td class="n">everything in VRAM</td><td class="n">4185-254125</td><td class="n">22</td><td class="n">1666.0</td><td class="n">4200</td><td class="n">600</td></tr>
+<tr><td>qwen-serve-27b-3090-sglang</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td>-</td><td class="n">everything in VRAM</td><td class="n">8741-138452</td><td class="n">40</td><td class="n">1615.8</td><td class="n">17397</td><td class="n">619</td></tr>
+<tr><td>moetier-qwen38fn</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td class="n">omarchy</td><td class="n">4x array, capped to 1 drive's bandwidth, 4x M.2 array in RAID0</td><td class="n">8192-32768</td><td class="n">55</td><td class="n">1193.4</td><td class="n">32768</td><td class="n">838</td></tr>
+<tr><td>qwen-serve-27b-b70-llamacpp</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td>-</td><td class="n">everything in VRAM</td><td class="n">2500-245000</td><td class="n">12</td><td class="n">1164.0</td><td class="n">2500</td><td class="n">859</td></tr>
+<tr><td>local-ai-registry-gates-intel-arc-pro-b70-32gb</td><td class="n">mixed</td><td class="n">Qwen3.8-Flash-Next +1 more</td><td class="n">intel-arc-pro-b70-32gb</td><td class="n">1x M.2 drive, all experts in host RAM, everything in VRAM</td><td class="n">213575-213612</td><td class="n">7</td><td class="n">1087.0</td><td class="n">213612</td><td class="n">920</td></tr>
+<tr><td>qwen-serve-b70-offload</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td class="n">omarchy</td><td class="n">4x M.2 array in RAID0</td><td class="n">942-7406</td><td class="n">4</td><td class="n">1029.5</td><td class="n">7406</td><td class="n">971</td></tr>
+<tr><td>local-ai-recipe-kit-targets-intel-arc-pro-b70-32gb</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td>-</td><td class="n">1x M.2 drive</td><td class="n">8192-65536</td><td class="n">4</td><td class="n">1027.0</td><td class="n">8192</td><td class="n">974</td></tr>
+<tr><td>local-ai-recipe-kit-b70</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td>-</td><td class="n">1x M.2 drive</td><td class="n">8192-65536</td><td class="n">4</td><td class="n">1022.7</td><td class="n">8192</td><td class="n">978</td></tr>
+<tr><td>trellis-serve-xpu-b70-llamacpp</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td>-</td><td class="n">everything in VRAM</td><td class="n">7335-58172</td><td class="n">2</td><td class="n">999.1</td><td class="n">7335</td><td class="n">1001</td></tr>
+<tr><td>glm-flash-lite</td><td class="n">glm</td><td class="n">GLM-5.3-Flash</td><td class="n">omarchy</td><td class="n">1x M.2 drive, 4x array, capped to 1 drive's bandwidth, 4x M.2 array in RAID0, all experts in host RAM, not stated</td><td class="n">8192-32768</td><td class="n">96</td><td class="n">973.7</td><td class="n">32768</td><td class="n">1027</td></tr>
+<tr><td>dsv41-flash-offload</td><td class="n">deepseek</td><td class="n">DeepSeek-V4.1-Flash</td><td>-</td><td class="n">all experts in host RAM</td><td class="n">8192-261000</td><td class="n">23</td><td class="n">813.2</td><td class="n">65536</td><td class="n">1230</td></tr>
+<tr><td>qwen38-flash-next-3090-usb-offload</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next</td><td class="n">mini</td><td class="n">drive on the far side of USB</td><td class="n">2565-189481</td><td class="n">10</td><td class="n">584.2</td><td class="n">33842</td><td class="n">1712</td></tr>
+<tr><td>local-ai-registry-gates-rx-6700-xt-12gb</td><td class="n">qwen</td><td class="n">Qwen3.5-9B</td><td class="n">rx-6700-xt-12gb</td><td class="n">everything in VRAM</td><td class="n">52583</td><td class="n">1</td><td class="n">559.0</td><td class="n">52583</td><td class="n">1789</td></tr>
+<tr><td>local-ai-registry-gates-rtx-3060-12gb</td><td class="n">qwen</td><td class="n">Qwen3.6-35B-A3B +1 more</td><td class="n">rtx-3060-12gb</td><td class="n">all experts in host RAM, everything in VRAM</td><td class="n">106252-106294</td><td class="n">2</td><td class="n">512.0</td><td class="n">106252</td><td class="n">1953</td></tr>
+<tr><td>framework-research-phase0-strix</td><td class="n">qwen</td><td class="n">Qwen3.5-122B-A10B-REAP-20 +1 more</td><td class="n">Strix Halo Framework Desktop</td><td class="n">one shared memory pool</td><td class="n">64-131072</td><td class="n">33</td><td class="n">443.0</td><td class="n">512</td><td class="n">2257</td></tr>
+<tr><td>trellis-serve-xpu-b70-llamacpp-tp2</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td>-</td><td class="n">everything in VRAM</td><td class="n">7379-58352</td><td class="n">2</td><td class="n">341.4</td><td class="n">7379</td><td class="n">2929</td></tr>
+<tr><td>framework-research-rpc-hetero</td><td class="n">qwen</td><td class="n">Qwen3.5-122B-A10B-REAP-20</td><td class="n">halo (Strix Halo) + <cuda-peer> RTX 3090 over Wi-Fi RPC</td><td class="n">drive on the far side of USB, one shared memory pool</td><td class="n">20-8832</td><td class="n">12</td><td class="n">320.9</td><td class="n">8832</td><td class="n">3117</td></tr>
+<tr><td>local-ai-registry-gates-apple-m5-pro-48gb</td><td class="n">qwen</td><td class="n">Qwen3.8-Flash-Next +1 more</td><td class="n">apple-m5-pro-48gb</td><td class="n">one shared memory pool</td><td class="n">25740-166625</td><td class="n">3</td><td class="n">218.0</td><td class="n">25740</td><td class="n">4587</td></tr>
+<tr><td>local-ai-registry-gates-apple-m5-pro-24gb</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td class="n">apple-m5-pro-24gb</td><td class="n">one shared memory pool</td><td class="n">166655</td><td class="n">1</td><td class="n">176.0</td><td class="n">166655</td><td class="n">5682</td></tr>
+<tr><td>local-ai-registry-gates-x86-64-avx2-cpu</td><td class="n">other</td><td class="n">LFM2.5-2.6B</td><td class="n">x86-64-avx2-cpu</td><td class="n">all experts in host RAM</td><td class="n">5552</td><td class="n">1</td><td class="n">84.0</td><td class="n">5552</td><td class="n">11905</td></tr>
+<tr><td>local-ai-registry-gates-radeon-8060s-64gb</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td class="n">radeon-8060s-64gb</td><td class="n">one shared memory pool</td><td class="n">106252</td><td class="n">1</td><td class="n">70.0</td><td class="n">106252</td><td class="n">14286</td></tr>
+<tr><td>local-ai-registry-gates-apple-m2-max-96gb</td><td class="n">qwen</td><td class="n">Qwen3.8-27B</td><td class="n">apple-m2-max-96gb</td><td class="n">one shared memory pool</td><td class="n">166667</td><td class="n">1</td><td class="n">52.0</td><td class="n">166667</td><td class="n">19231</td></tr>
+</tbody></table>
+
+<h2 id="caveats">4. Caveats</h2>
+<ul>
+<li>Prefill numbers are only comparable inside one <code>dataset</code>: protocols differ
+(sweep medians vs one request per length), and so do hosts.</li>
+<li>Arms of one campaign often ran hours apart. On this host that drifts up to ~17 %, so a
+few-percent gap between arms in different sessions is not a result.</li>
+<li><code>transcribed</code> rows were read off a Markdown table by hand; everything else is
+machine-read from the source repo's JSON.</li>
+<li>Time to first token marked with an asterisk is computed as prompt tokens / prefill tok/s,
+because the source reports only the rate.</li>
+</ul>
+
+<h2 id="reproduce">5. Reproduce</h2>
+<pre>git clone https://github.com/sybil-solutions/prefill-cost &amp;&amp; cd prefill-cost
+git clone --depth 1 https://github.com/sybil-solutions/moetier ../moetier &amp;&amp; git clone --depth 1 https://github.com/sybil-solutions/glm-flash-lite ../glm-flash-lite &amp;&amp; git clone --depth 1 https://github.com/sybil-solutions/dsv41-flash-offload ../dsv41-flash-offload &amp;&amp; git clone --depth 1 https://github.com/sybil-solutions/qwen38-flash-next-3090-usb-offload ../qwen38-flash-next-3090-usb-offload
+python3 tools/extract.py --sources ..   # staging rows
+python3 tools/merge.py                  # validate + data/prefill.jsonl
+python3 tools/render.py                 # README tables + docs/index.html</pre>
+
+<h2 id="provenance">Provenance</h2>
+<table>
+<thead><tr><th>repo</th><th>commit</th><th>file</th><th>rows</th></tr></thead>
+<tbody>
+<tr><td>[deepseek-v4.1-flash-4x-rtx-pro-6000](https://github.com/sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000)</td><td class="n">`ce69105cb581`</td><td class="n">`results/capacity-2800000.json`</td><td class="n">1</td></tr>
+<tr><td>[deepseek-v4.1-flash-4x-rtx-pro-6000](https://github.com/sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000)</td><td class="n">`ce69105cb581`</td><td class="n">`results/local-nvme-dspark-summary.json`</td><td class="n">45</td></tr>
+<tr><td>[deepseek-v4.1-flash-4x-rtx-pro-6000](https://github.com/sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000)</td><td class="n">`ce69105cb581`</td><td class="n">`results/remote-historical-summary.json`</td><td class="n">3</td></tr>
+<tr><td>[deepseek-v4.1-flash-4x-rtx-pro-6000](https://github.com/sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000)</td><td class="n">`ce69105cb581`</td><td class="n">`results/summary.json`</td><td class="n">40</td></tr>
+<tr><td>[deepseek-v4.1-flash-h200](https://github.com/sybil-solutions/deepseek-v4.1-flash-h200)</td><td class="n">`8a0104bc9f86`</td><td class="n">`evidence/fixed-vision/summary.json`</td><td class="n">27</td></tr>
+<tr><td>[deepseek-v4.1-flash-h200](https://github.com/sybil-solutions/deepseek-v4.1-flash-h200)</td><td class="n">`8a0104bc9f86`</td><td class="n">`evidence/ram-benchmark.json`</td><td class="n">1</td></tr>
+<tr><td>[deepseek-v4.1-flash-h200](https://github.com/sybil-solutions/deepseek-v4.1-flash-h200)</td><td class="n">`8a0104bc9f86`</td><td class="n">`evidence/ssd-benchmark.json`</td><td class="n">1</td></tr>
+<tr><td>[deepseek-v4.1-flash-h200](https://github.com/sybil-solutions/deepseek-v4.1-flash-h200)</td><td class="n">`8a0104bc9f86`</td><td class="n">`evidence/tables/measured.json`</td><td class="n">2</td></tr>
+<tr><td>[deepseek-v4.1-flash-h200](https://github.com/sybil-solutions/deepseek-v4.1-flash-h200)</td><td class="n">`8a0104bc9f86`</td><td class="n">`evidence/tiered/cold-benchmark.json`</td><td class="n">1</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D030/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D061/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D107/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D117/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D119/ctx_scan.json`</td><td class="n">5</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D119/ctx_scan_261k.json`</td><td class="n">1</td></tr>
+<tr><td>[dsv41-flash-offload](https://github.com/sybil-solutions/dsv41-flash-offload)</td><td class="n">`08802b6fe001`</td><td class="n">`results/D130.md`</td><td class="n">9</td></tr>
+<tr><td>[framework-research](https://github.com/sybil-solutions/framework-research)</td><td class="n">`7eb74068e3ca`</td><td class="n">`benchmarks/missions/34-rpc-hetero-inference/results_raw.jsonl`</td><td class="n">12</td></tr>
+<tr><td>[framework-research](https://github.com/sybil-solutions/framework-research)</td><td class="n">`7eb74068e3ca`</td><td class="n">`documentation/phase-0-strix-benchmarks.md`</td><td class="n">33</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/C056/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/G066a/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/G067/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/N119-S2a-55g/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/N119-S3a-55g/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/N119-S3b2-55g/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/N129-pfon-55g/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/N129-s16-r16-16g/sweep.json`</td><td class="n">1</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/N129-s16-r48-16g/sweep.json`</td><td class="n">1</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/P001-image-smoke/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/P002b-stream-fix-smoke/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm-flash-lite](https://github.com/sybil-solutions/glm-flash-lite)</td><td class="n">`6fe077da79a4`</td><td class="n">`results/P003-nvme-image-smoke/sweep.json`</td><td class="n">2</td></tr>
+<tr><td>[glm53-flash-tensorfold-4x-spark](https://github.com/sybil-solutions/glm53-flash-tensorfold-4x-spark)</td><td class="n">`16a92c85d6c4`</td><td class="n">`README.md`</td><td class="n">13</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`reference/best_known.json`</td><td class="n">8</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`submissions/2x-r9700-32gb/2026-09-29-benstadin-bprime-fp8.json`</td><td class="n">4</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`submissions/2x-r9700-32gb/2026-09-29-benstadin-bprime.json`</td><td class="n">4</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`submissions/2x-r9700-32gb/2026-09-29-benstadin-m2-fp8.json`</td><td class="n">4</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`submissions/2x-r9700-32gb/2026-09-29-benstadin-m2.json`</td><td class="n">4</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`submissions/rtx-3090-24gb/2026-09-29-0xSero.json`</td><td class="n">4</td></tr>
+<tr><td>[local-ai-recipe-kit](https://github.com/sybil-solutions/local-ai-recipe-kit)</td><td class="n">`ef9782ce0c56`</td><td class="n">`targets/qwen3.8-flash-next-offload.md`</td><td class="n">8</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/apple-m2-max-96gb.qwen3.8-27b.mlx-vlm-qwen3.8-27b-4bit-mtp-200k-m2-max.200k.20261006T084645.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/apple-m5-pro-24gb.qwen3.8-27b.mlx-vlm-qwen3.8-27b-3bit-mtp-200k.200k.20261006T032555.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/apple-m5-pro-48gb.qwen3.8-27b.mtplx-qwen3.8-27b-4bit-mtp-200k.200k.20261006T030237.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/apple-m5-pro-48gb.qwen3.8-flash-next.slotstream-qwen3.8-flash-next-4bit-32k.32k.20261008T160431.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/apple-m5-pro-48gb.qwen3.8-flash-next.slotstream-qwen3.8-flash-next-4bit-32k.32k.20261008T161700.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/dgx-spark-gb10-128gb.deepseek-v4.1-flash.vllm-deepseek-v4.1-flash-spark-256k-2x.256k.20261003T082323.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/dgx-spark-gb10-128gb.deepseek-v4.1-flash.vllm-deepseek-v4.1-flash-spark-256k-2x.256k.20261003T212655.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/dgx-spark-gb10-128gb.glm-5.3-flash.tensorfold-glm-5.3-flash-exl3-4bpw-1024k-4x.1024k.20261012T165242.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.nemotron-3.5-bolt-74b-a9b.llama.cpp-sycl-nemotron-3.5-bolt-74b-a9b-24gb-256k-arc-pro-b70.256k.20261017T080702.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme12-256k-intel-arc-pro-b70-32gb.256k.20261017T044600.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme28-256k-intel-arc-pro-b70-32gb.256k.20261017T024039.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme58-256k-intel-arc-pro-b70-32gb.256k.20261017T022820.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-nvme58-256k-intel-arc-pro-b70-32gb.256k.20261017T025437.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-mtp-ram80-256k-intel-arc-pro-b70-32gb.256k.20261016T211050.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/intel-arc-pro-b70-32gb.qwen3.8-flash-next.sglang-qwen3.8-flash-next-exl3-3.05bpw-ram-256k-intel-arc-pro-b70-32gb.256k.20261016T160704.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/radeon-8060s-64gb.qwen3.8-27b.llama.cpp-vulkan-qwen3.8-27b-iq4-xs-mtp-128k.128k.20261020T080217.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3060-12gb.qwen3.6-35b-a3b.llama.cpp-qwen3.6-35b-a3b-mtp-ud-q4-k-xl-autofit-128k-2x.128k.20261001T014311.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3060-12gb.qwen3.8-27b.llama.cpp-qwen3.8-27b-ud-q4-k-xl-tensor-mtp-128k-2x.128k.20261001T013240.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-16g-128k-rtx-3090-24gb.128k.20261008T152926.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-16g-128k-rtx-3090-24gb.128k.20261009T021643.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-16g-128k-rtx-3090-24gb.128k.20261009T124547.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-55g-128k-rtx-3090-24gb.128k.20261008T083936.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-55g-128k-rtx-3090-24gb.128k.20261009T012633.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-nvme-55g-128k-rtx-3090-24gb.128k.20261009T123730.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.glm-5.3-flash.exllamav3-glm-5.3-flash-exl3-3.05bpw-offload-128k-rtx-3090-24gb.128k.20261009T064723.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.qwen3.8-27b-pi.sglang-qwen3.8-27b-pi-exl3-3bpw-mtp-vision-200k.200k.20261005T080915.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.qwen3.8-27b.sglang-qwen3.8-27b-exl3-3bpw-mtp-vision-208k.208k.20261010T112034.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.qwen3.8-flash-next.strata-qwen3.8-flash-next-iq3-s-128k-rtx-3090-24gb.128k.20261011T191729.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-3090-24gb.qwen3.8-flash-next.strata-qwen3.8-flash-next-q2-0-128k-rtx-3090-24gb.128k.20261012T015035.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rtx-4080-super-16gb.welp-35b-a3b.llama.cpp-welp-35b-a3b-262k.256k.20261009T194126.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/rx-6700-xt-12gb.qwen3.5-9b.llama.cpp-qwen3.5-9b-q4-k-m-64k-gfx1031.64k.20261011T160703.json`</td><td class="n">1</td></tr>
+<tr><td>[local-ai-registry](https://github.com/sybil-solutions/local-ai-registry)</td><td class="n">`c0604cff4807`</td><td class="n">`lab/runs/x86-64-avx2-cpu.lfm2.5-2.6b.llama.cpp-lfm2.5-2.6b-qad-q4-0-8k-cpu-docker.8k.20261003T102019.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-16g-r16-screen.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-16g-r48-screen.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-55g-pfon-cap8-pair.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-55g-pfon-cap8.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-55g-pfon-n129.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-55g-pfon-nocap-pair.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-58g-pfoff.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-c55-pfoff-control.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-g066a-exact.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-g067-allram.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-image-v4-nvme.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-ab-ctl-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-ab-ctl-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-ab-k1-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-ab-k1-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-ab-k1m0-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-e2-ctl.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-f-single-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-g-cap7-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-g-raid-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-q-cap7-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-q-cap7-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-q-raid-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-q-raid-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-q-single-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-q-single-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-v44-ctl-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-v44-ctl-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-v46-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n129-v46-full-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n137-b70-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n137-b70-fr120.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n137-b70r-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n137-ctl-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-n137-ctl-fr120.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s1b-exact-nvme-50g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s1c-exact-nvme-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s1d-exact-nvme-50g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s2-exact-nvme-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s3a-cpu-nvme-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s3b-cpu-nvme-batched-55g.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s3b-util-base.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-s3b-util.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u1-ctrl.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u1-pflo.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u1-pfoff.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u2-lfu.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u3-vis.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u5-cpudiag.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u6-lfu-pfoff.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u6a-pfoff.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u6b-pfoff.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-u7-rd32.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-v42-image-smoke-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-v42-image-smoke-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-v43-image-smoke-16g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/glm53-v43-image-smoke-55g.json`</td><td class="n">1</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-n130-16g.json`</td><td class="n">10</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-n130-32g-control.json`</td><td class="n">8</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-prof-cap7.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-prof-raid.json`</td><td class="n">2</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv20.json`</td><td class="n">5</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv21.json`</td><td class="n">5</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv22.json`</td><td class="n">5</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv23.json`</td><td class="n">5</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv24b.json`</td><td class="n">3</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv25.json`</td><td class="n">5</td></tr>
+<tr><td>[moetier](https://github.com/sybil-solutions/moetier)</td><td class="n">`2da3ec482dc9`</td><td class="n">`registry/runs/qwen38fn-b70-srv26.json`</td><td class="n">5</td></tr>
+<tr><td>[qwen-serve](https://github.com/sybil-solutions/qwen-serve)</td><td class="n">`730d8101d0ff`</td><td class="n">`qwen3.8-flash-next/b70-offload/results/n130/c32/analysis.json`</td><td class="n">2</td></tr>
+<tr><td>[qwen-serve](https://github.com/sybil-solutions/qwen-serve)</td><td class="n">`730d8101d0ff`</td><td class="n">`qwen3.8-flash-next/b70-offload/results/n130/f16/analysis.json`</td><td class="n">2</td></tr>
+<tr><td>[qwen-serve](https://github.com/sybil-solutions/qwen-serve)</td><td class="n">`730d8101d0ff`</td><td class="n">`qwen3.8/3090-sglang/benchmarks/tp1-results.json`</td><td class="n">4</td></tr>
+<tr><td>[qwen-serve](https://github.com/sybil-solutions/qwen-serve)</td><td class="n">`730d8101d0ff`</td><td class="n">`qwen3.8/3090-sglang/benchmarks/tp2-results.json`</td><td class="n">16</td></tr>
+<tr><td>[qwen-serve](https://github.com/sybil-solutions/qwen-serve)</td><td class="n">`730d8101d0ff`</td><td class="n">`qwen3.8/3090-sglang/benchmarks/tp4-results.json`</td><td class="n">20</td></tr>
+<tr><td>[qwen-serve](https://github.com/sybil-solutions/qwen-serve)</td><td class="n">`730d8101d0ff`</td><td class="n">`qwen3.8/b70/README.md`</td><td class="n">12</td></tr>
+<tr><td>[qwen38-flash-next-3090-usb-offload](https://github.com/sybil-solutions/qwen38-flash-next-3090-usb-offload)</td><td class="n">`9392e65a9558`</td><td class="n">`README.md`</td><td class="n">10</td></tr>
+<tr><td>[trellis-serve](https://github.com/sybil-solutions/trellis-serve)</td><td class="n">`a1f72be2ff63`</td><td class="n">`xpu/README.md`</td><td class="n">4</td></tr>
+<tr><td>[trellis-serve](https://github.com/sybil-solutions/trellis-serve)</td><td class="n">`a1f72be2ff63`</td><td class="n">`xpu/bench/results/2026-09-22.jsonl`</td><td class="n">7</td></tr>
+<tr><td>[trellis-serve](https://github.com/sybil-solutions/trellis-serve)</td><td class="n">`a1f72be2ff63`</td><td class="n">`xpu/bench/results/2026-09-23.jsonl`</td><td class="n">19</td></tr>
+</tbody></table>
+</body></html>
